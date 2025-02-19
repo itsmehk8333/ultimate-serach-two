@@ -50,7 +50,7 @@ router.get("/search", async (req, res) => {
     //     { $text: { $search: query } },
     //     { score: { $meta: "textScore" } }
     // ).sort({ score: { $meta: "textScore" } }).limit(10);
-    res.send(users);
+    // res.send(users);
 });
 
 router.get('/get-all-users', async (req, res) => {
