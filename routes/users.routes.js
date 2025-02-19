@@ -4,6 +4,7 @@ const user = require('../schemas/users.schema');
 
 const router = express.Router();
 
+
 router.post('/register', async (req, res) => {
     const { name, email, address, pincode, phoneNumber, password, city, state, country, role } = req.body;
     const newUser = new user({
@@ -31,8 +32,25 @@ router.post('/register-bulk', async (req, res) => {
 
 
 router.get("/search", async (req, res) => {
-    db.users.find({ $text: { $search: "John" } })
-
+    const { query } = req.query;
+    const users = await user.find(
+        {
+            $or: [
+                { name: { $regex: `^${query}`, $options: 'i' } },
+                { email: { $regex: `^${query}`, $options: 'i' } },
+                { address: { $regex: `^${query}`, $options: 'i' } },
+                { city: { $regex: `^${query}`, $options: 'i' } },
+                { state: { $regex: `^${query}`, $options: 'i' } },
+                { country: { $regex: `^${query}`, $options: 'i' } }
+            ]
+        }
+    ).limit(10);
+    res.send(users);
+    // const users = await user.find(
+    //     { $text: { $search: query } },
+    //     { score: { $meta: "textScore" } }
+    // ).sort({ score: { $meta: "textScore" } }).limit(10);
+    res.send(users);
 });
 
 router.get('/get-all-users', async (req, res) => {
