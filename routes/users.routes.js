@@ -4,7 +4,6 @@ const user = require('../schemas/users.schema');
 
 const router = express.Router();
 
-
 router.post('/register', async (req, res) => {
     const { name, email, address, pincode, phoneNumber, password, city, state, country, role } = req.body;
     const newUser = new user({
