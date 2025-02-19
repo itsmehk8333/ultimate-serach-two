@@ -17,6 +17,10 @@ mongoose.connect(db_url)
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.get("/", (req, res) => {
+    res.send("Hello World");
+}
+);
 app.use("/users", require('./routes/users.routes'));
 // app.use('/fakeData', fakeDataRoute);
 app.listen(5000, () => {
